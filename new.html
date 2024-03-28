@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Scheduling Scan Algorithm</title>
+  <style>
+  .container {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.chart-container {
+  margin-top: 20px;
+}
+
+  </style>
+
+
+</head>
+
+
+<body>
+  <div class="container">
+    <h1>Task Scheduling Scan Algorithm</h1>
+    <form id="taskForm">
+      <label for="tasks">Enter task numbers separated by commas:</label><br>
+      <input type="text" id="tasks" name="tasks"><br><br>
+      <button type="submit">Submit</button>
+    </form>
+    <div class="chart-container">
+      <canvas id="myChart"></canvas>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script >document.getElementById('taskForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  // Get input value and parse into an array
+  const input = document.getElementById('tasks').value.trim();
+  const tasksArray = input.split(',').map(task => parseInt(task.trim()));
+  
+  // Sort the array
+  tasksArray.sort((a, b) => a - b);
+  
+  // Plot graph
+  plotGraph(tasksArray);
+});
+
+function plotGraph(tasksArray) {
+  const ctx = document.getElementById('myChart').getContext('2d');
+
+  const chartData = {
+    labels: tasksArray.map((task, index) => `Task ${index + 1}`),
+    datasets: [{
+      label: 'Task Numbers',
+      data: tasksArray,
+      backgroundColor: 'rgba(54, 162, 235, 0.2)',
+      borderColor: 'rgba(54, 162, 235, 1)',
+      borderWidth: 1
+    }]
+  };
+
+  const myChart = new Chart(ctx, {
+    type: 'bar',
+    data: chartData,
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  });
+}
+
+</script>
+</body>
+</html>
